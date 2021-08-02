@@ -1,0 +1,16 @@
+<div class="container">
+  <form action="/" method="POST" style="margin-top: 100px;">
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center">
+        <input type="text" name="originURL" class="form-control" style="width: 300px;" placeholder="URL..."
+          aria-label="Username" aria-describedby="basic-addon1" required>
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-3">
+        <input type="text" readonly class="form-control form-control-lg" style="width: 450px;" {{#if shortenedURL}} value="{{ shortenedURL }}" {{/if}}>
+      </div>
+      <div class="col-12 d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-outline-primary">Shortener</button>
+      </div>
+    </div>
+  </form>
+</div>
