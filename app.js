@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 })
 
 //post目錄
-app.post('/', async (req, res) => {
+app.post('/', (req, res) => {
   const inputUrl = req.body.originURL.trim() //避免使用者在網址開頭或結尾輸入到空白鍵
   let usefulShortUrl = ''
   // 產生randomCode直到不予資料庫重複
@@ -70,13 +70,13 @@ app.post('/', async (req, res) => {
     .catch(error => console.error(error))
 })
 
-// app.get('/:randomUrlCode', (req, res) => {
-//   const randomUrlCode = req.params.randomCode.replace('/', '')
-//   URL.find({ shortURL: randomUrlCode })
-//     .lean()
-//     .then(result => res.redirect(result[0].originURL))
-//     .catch(error => console.error(error))
-// })
+app.get('/:randomUrlCode', (req, res) => {
+  const randomUrlCode = req.params.randomCode.replace('/', '')
+  URL.find({ shortURL: randomUrlCode })
+    .lean()
+    .then(result => res.redirect(result[0].originURL))
+    .catch(error => console.error(error))
+})
 
 app.listen('3000', () => {
   console.log('app is running on http://localhost:3000')
