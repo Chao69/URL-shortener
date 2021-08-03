@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const URL = require('../url')
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/url-shortener'
+
 const data = [
   {
     originURL: "https://www.youtube.com/",
@@ -11,7 +13,7 @@ const data = [
   }
 ]
 
-  mongoose.connect('mongodb://localhost/url-shortener', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 取得資料庫連線狀態
 const db = mongoose.connection

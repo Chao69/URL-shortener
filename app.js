@@ -2,14 +2,15 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const mainUrl = `http://localhost:${PORT}/`
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/url-shortener'
 const URL = require('./models/url')
 const { randomUrlCode } = require('./tools/utility')
 
 const app = express()
 
-mongoose.connect('mongodb://localhost/url-shortener', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -59,7 +60,7 @@ app.post('/', (req, res) => {
       if (url.length === 1) {
         res.render('index', { shortenedURL: mainUrl.concat(url[0].shortURL) })
       } else {
-        const NewURL = new URL ({
+        const NewURL = new URL({
           originURL: inputUrl,
           shortURL: usefulShortUrl
         })
@@ -71,13 +72,13 @@ app.post('/', (req, res) => {
 })
 
 app.get('/:randomUrlCode', (req, res) => {
-  const randomUrlCode = req.params.randomCode.replace('/', '')
-  URL.find({ shortURL: randomUrlCode })
+  const randomUrlCode = req.params.randomCode
+  URL.find({ shortURL })
     .lean()
     .then(result => res.redirect(result[0].originURL))
     .catch(error => console.error(error))
 })
 
-app.listen('3000', () => {
-  console.log('app is running on http://localhost:3000')
+app.listen(PORT, () => {
+  console.log(`app is running on http://localhost:${PORT}`)
 })
