@@ -4,6 +4,8 @@ const bodyParser = require('body-parser')
 const router = require('./routes')
 const PORT = process.env.PORT || 3000
 
+require('./config/mongoose')
+
 const app = express()
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main', extname: '.handlebars' }))
